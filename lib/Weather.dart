@@ -21,6 +21,8 @@ class WeatherListItem extends StatelessWidget{
 
   late final Weather weather;
 
+  WeatherListItem(this.weather);
+
   @override
   Widget build(BuildContext context){
     return Padding(

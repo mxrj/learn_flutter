@@ -1,36 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hello_world2/CounterWidget.dart';
+import 'package:flutter_hello_world2/Weather.dart';
 
-import 'HintLabel.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    return WeatherForecastPage("Moscow");
+  }
+}
+
+class WeatherForecastPage extends StatefulWidget{
+  WeatherForecastPage(this.cityName);
+
+  final String cityName;
+
+  @override
+  State<StatefulWidget> createState(){
+    return _WeatherForecastPageState();
+  }
+}
+
+class _WeatherForecastPageState extends State<WeatherForecastPage>{
+  List<Weather> weatherForecast = [
+    Weather(DateTime.now(), 20, 90, "04d"),
+    Weather(DateTime.now().add(Duration(hours: 3)), 23, 50, "03d"),
+    Weather(DateTime.now().add(Duration(hours: 6)), 25, 50, "02d"),
+    Weather(DateTime.now().add(Duration(hours: 9)), 28, 50, "01d")
+  ];
+
+  @override
+  Widget build(BuildContext context){
     return MaterialApp(
-      title: 'Counter',
+      title: 'ListView sample',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.teal,
       ),
       home: Scaffold(
-        backgroundColor: Colors.lightBlue,
         appBar: AppBar(
-          title: Text('Counter on Flutter'),
+          title: Text('Weather forecast'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              HintLabel('tap - to decrement'),
-              SizedBox(height: 8.0),
-              CounterWidget(),
-              SizedBox(height: 8.0),
-              HintLabel('tap + to increment')
-            ])),
-          ),
+        body: ListView(
+          children: weatherForecast.map((Weather weather){
+            return WeatherListItem(weather);
+          }).toList())),
         );
   }
 }
